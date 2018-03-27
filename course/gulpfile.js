@@ -26,7 +26,7 @@ gulp.task('serve', function() {
 gulp.task('browserify', function(){
     return gulp.src(['app/app.js'])
         .pipe(browserify())
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(rename("main.js"))
         .pipe(gulp.dest('public/js/'));
 });
