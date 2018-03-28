@@ -1,6 +1,58 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = function($scope){
-    $scope.name = "Envolving with Angular JS!!!";
+module.exports = function($scope, $http){
+    $scope.name = "My Pizza"
+    
+    var listClients = function(){
+        $http.get('http://localhost:8080').then(function(response){
+            //console.log(response.data);
+            //console.log(response.status);
+            $scope.clients = response.data;
+        });
+    };
+
+    var addClients = function(client){
+        $http.post('http://localhost:8080',client).then(function(response){
+            console.log(response.data);
+            console.log(response.status);
+            listClients();
+        });
+    };
+    var destroyClients = function(client){
+        client.delete = true;
+        $http.post('post.php',client).then(function(response){
+            console.log(response.data);
+            console.log(response.status);
+        });
+    };
+
+    listClients();
+
+
+    $scope.add = function(client){
+        addClients(angular.copy(client));
+        $scope.formClient.$setPristine();
+        delete $scope.client;
+
+    };
+    $scope.edit = function(client){
+        $scope.client = client;
+        $scope.editing = true;
+    };
+    $scope.save = function() {
+        addClients(angular.copy($scope.client));
+        $scope.formClient.$setPristine();
+        delete $scope.client;
+        $scope.editing = false;
+    };
+    $scope.destroy = function(client) {
+        $scope.clients.splice($scope.clients.indexOf(client),1);
+        destroyClients(client);
+
+    };
+    $scope.orderBy = function(col){
+        $scope.order = col;
+        $scope.reverse = !$scope.reverse;
+    };
 };
 },{}],2:[function(require,module,exports){
 require('angular');
@@ -8,8 +60,7 @@ require('angular');
 var MainController = require('./controllers/MainController');
 
 angular.module('app', []);
-
-angular.module('app').controller('MainController', ['$scope', MainController]);
+angular.module('app').controller('MainController',['$scope','$http',MainController]);
 },{"./controllers/MainController":1,"angular":4}],3:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.9
