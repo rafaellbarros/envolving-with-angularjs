@@ -1,6 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = function($scope, $http){
-    $scope.name = "My Pizza"
+module.exports = function($scope, $http, $filter){
+    $scope.name = $filter("uppercase")("My Pizza");
+    $scope.day = new Date();
+    $scope.total = 27.35;
+    $scope.clients = [];
     
     var listClients = function(){
         $http.get('http://localhost:8080').then(function(response){
@@ -56,12 +59,139 @@ module.exports = function($scope, $http){
 };
 },{}],2:[function(require,module,exports){
 require('angular');
+require('./locale/angular-locale_pt-br')
 
 var MainController = require('./controllers/MainController');
 
 angular.module('app', []);
-angular.module('app').controller('MainController',['$scope','$http',MainController]);
-},{"./controllers/MainController":1,"angular":4}],3:[function(require,module,exports){
+angular.module('app').controller('MainController',['$scope','$http', '$filter', MainController]);
+},{"./controllers/MainController":1,"./locale/angular-locale_pt-br":3,"angular":5}],3:[function(require,module,exports){
+'use strict';
+angular.module("ngLocale", [], ["$provide", function($provide) {
+    var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
+    $provide.value("$locale", {
+        "DATETIME_FORMATS": {
+            "AMPMS": [
+                "AM",
+                "PM"
+            ],
+            "DAY": [
+                "domingo",
+                "segunda-feira",
+                "ter\u00e7a-feira",
+                "quarta-feira",
+                "quinta-feira",
+                "sexta-feira",
+                "s\u00e1bado"
+            ],
+            "ERANAMES": [
+                "Antes de Cristo",
+                "Ano do Senhor"
+            ],
+            "ERAS": [
+                "a.C.",
+                "d.C."
+            ],
+            "FIRSTDAYOFWEEK": 6,
+            "MONTH": [
+                "janeiro",
+                "fevereiro",
+                "mar\u00e7o",
+                "abril",
+                "maio",
+                "junho",
+                "julho",
+                "agosto",
+                "setembro",
+                "outubro",
+                "novembro",
+                "dezembro"
+            ],
+            "SHORTDAY": [
+                "dom",
+                "seg",
+                "ter",
+                "qua",
+                "qui",
+                "sex",
+                "s\u00e1b"
+            ],
+            "SHORTMONTH": [
+                "jan",
+                "fev",
+                "mar",
+                "abr",
+                "mai",
+                "jun",
+                "jul",
+                "ago",
+                "set",
+                "out",
+                "nov",
+                "dez"
+            ],
+            "STANDALONEMONTH": [
+                "janeiro",
+                "fevereiro",
+                "mar\u00e7o",
+                "abril",
+                "maio",
+                "junho",
+                "julho",
+                "agosto",
+                "setembro",
+                "outubro",
+                "novembro",
+                "dezembro"
+            ],
+            "WEEKENDRANGE": [
+                5,
+                6
+            ],
+            "fullDate": "EEEE, d 'de' MMMM 'de' y",
+            "longDate": "d 'de' MMMM 'de' y",
+            "medium": "d 'de' MMM 'de' y HH:mm:ss",
+            "mediumDate": "d 'de' MMM 'de' y",
+            "mediumTime": "HH:mm:ss",
+            "short": "dd/MM/yy HH:mm",
+            "shortDate": "dd/MM/yy",
+            "shortTime": "HH:mm"
+        },
+        "NUMBER_FORMATS": {
+            "CURRENCY_SYM": "R$",
+            "DECIMAL_SEP": ",",
+            "GROUP_SEP": ".",
+            "PATTERNS": [
+                {
+                    "gSize": 3,
+                    "lgSize": 3,
+                    "maxFrac": 3,
+                    "minFrac": 0,
+                    "minInt": 1,
+                    "negPre": "-",
+                    "negSuf": "",
+                    "posPre": "",
+                    "posSuf": ""
+                },
+                {
+                    "gSize": 3,
+                    "lgSize": 3,
+                    "maxFrac": 2,
+                    "minFrac": 2,
+                    "minInt": 1,
+                    "negPre": "-\u00a4",
+                    "negSuf": "",
+                    "posPre": "\u00a4",
+                    "posSuf": ""
+                }
+            ]
+        },
+        "id": "pt-br",
+        "localeID": "pt_BR",
+        "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+    });
+}]);
+},{}],4:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.9
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -34421,8 +34551,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":3}]},{},[2])
+},{"./angular":4}]},{},[2])
