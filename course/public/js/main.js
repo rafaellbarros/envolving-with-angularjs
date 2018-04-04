@@ -58,14 +58,55 @@ module.exports = function($scope, $http, $filter){
     };
 };
 },{}],2:[function(require,module,exports){
+module.exports = function(){
+    return {
+        require: "ng-model",
+        link: function(scope, element, attributes, controller) {
+            //console.log(scope);
+            //console.log(element);
+            //console.log(attributes);
+
+            element.bind("keyup", function (){
+                //console.log(scope.formClient.telClient.$viewValue);
+
+                var _formatTel = function(value) {
+                    value = value.replace(/[^0-9]+/g,"");
+                    if(value.length > 4 && value.length <= 8){
+                        value = value.substring(0,4) + "-" + value.substring(4,8);
+                    } else if( value.length > 4){
+                        value = value.substring(0,4) + "-" + value.substring(5,9);
+                    }
+
+                    return value;
+                };
+
+                console.log(controller.$viewValue);
+                controller.$setViewValue(_formatTel(controller.$viewValue));
+                controller.$render();
+            });
+
+            controller.$parsers.push(function(value){
+
+                if(value.length > 8){
+                    //value = value.replace(/[^0-9]+/g,"");
+                    return value;
+                }
+
+            });
+        }
+    };
+};
+},{}],3:[function(require,module,exports){
 require('angular');
 require('./locale/angular-locale_pt-br')
 
 var MainController = require('./controllers/MainController');
+var maskTel = require('./directives/maskTel');
 
 angular.module('app', []);
+angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').controller('MainController',['$scope','$http', '$filter', MainController]);
-},{"./controllers/MainController":1,"./locale/angular-locale_pt-br":3,"angular":5}],3:[function(require,module,exports){
+},{"./controllers/MainController":1,"./directives/maskTel":2,"./locale/angular-locale_pt-br":4,"angular":6}],4:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -191,7 +232,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.9
  * (c) 2010-2018 Google, Inc. http://angularjs.org
@@ -34551,8 +34592,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":4}]},{},[2])
+},{"./angular":5}]},{},[3])
