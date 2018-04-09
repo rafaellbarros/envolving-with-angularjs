@@ -1,8 +1,9 @@
-module.exports = function($scope, $http, $filter, clientAPIService, clientTestService, configValue, bonusGenerator){
+module.exports = function($scope, $http, $filter, clientAPIService, clientTestService, configValue, bonusGenerator, routeName){
     
     $scope.name = $filter("uppercase")(configValue.appName);
     $scope.msg = "";
     $scope.clients = [];
+    $scope.page = routeName;
 
     /*
     var bonus = '';

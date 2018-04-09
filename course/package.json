@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "title": "Envolving With Angular",
   "devDependencies": {
+    "angular": "^1.6.9",
+    "angular-route": "^1.6.9",
     "gulp": "^3.9.1",
-    "gulp-live-server": "0.0.31",
-    "gulp-uglify": "^3.0.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-live-server": "0.0.31",
     "gulp-rename": "^1.2.2",
-    "angular": "^1.6.9"
+    "gulp-uglify": "^3.0.0"
   }
 }
