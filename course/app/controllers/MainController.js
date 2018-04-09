@@ -1,4 +1,4 @@
-module.exports = function($scope, $http, $filter, clientAPIService){
+module.exports = function($scope, $http, $filter, clientAPIService, clientTestService){
     
     $scope.name = $filter("uppercase")("My Pizza");
     $scope.msg = "";
@@ -14,7 +14,7 @@ module.exports = function($scope, $http, $filter, clientAPIService){
     };
 
     var addClients = function(client){
-        clientAPIService.saveClients(client).then(function(response){
+        clientTestService.saveClients(client).then(function(response){
             console.log(response.data);
             console.log(response.status);
             listClients();
