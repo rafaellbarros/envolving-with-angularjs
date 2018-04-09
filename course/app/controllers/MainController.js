@@ -1,4 +1,4 @@
-module.exports = function($scope, $http, $filter){
+module.exports = function($scope, $http, $filter, clientAPIService){
     
     $scope.name = $filter("uppercase")("My Pizza");
     $scope.msg = "";
@@ -6,7 +6,7 @@ module.exports = function($scope, $http, $filter){
 
     
     var listClients = function(){
-        $http.get('http://localhost:8080').then(function(response){
+        clientAPIService.getClients().then(function(response){
             //console.log(response.data);
             //console.log(response.status);
             $scope.clients = response.data;
@@ -14,7 +14,7 @@ module.exports = function($scope, $http, $filter){
     };
 
     var addClients = function(client){
-        $http.post('http://localhost:8080',client).then(function(response){
+        clientAPIService.saveClients(client).then(function(response){
             console.log(response.data);
             console.log(response.status);
             listClients();
@@ -22,7 +22,7 @@ module.exports = function($scope, $http, $filter){
     };
     var destroyClients = function(client){
         client.delete = true;
-        $http.post('post.php',client).then(function(response){
+        clientAPIService.saveClients(client).then(function(response){
             console.log(response.data);
             console.log(response.status);
         });
