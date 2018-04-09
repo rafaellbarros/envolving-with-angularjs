@@ -1,8 +1,17 @@
-module.exports = function($scope, $http, $filter, clientAPIService, clientTestService, configValue){
+module.exports = function($scope, $http, $filter, clientAPIService, clientTestService, configValue, bonusGenerator){
     
     $scope.name = $filter("uppercase")(configValue.appName);
     $scope.msg = "";
     $scope.clients = [];
+
+    /*
+    var bonus = '';
+    for(var i = 5; i > 0; --i){
+        bonus += Math.floor(Math.random()* 10);
+    }
+    */
+
+    $scope.bonus = 'Cod.Bonus: ' + bonusGenerator.generator();
 
     
     var listClients = function(){
