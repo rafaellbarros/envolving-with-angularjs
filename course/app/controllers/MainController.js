@@ -1,6 +1,6 @@
-module.exports = function($scope, $http, $filter, clientAPIService, clientTestService){
+module.exports = function($scope, $http, $filter, clientAPIService, clientTestService, configValue){
     
-    $scope.name = $filter("uppercase")("My Pizza");
+    $scope.name = $filter("uppercase")(configValue.appName);
     $scope.msg = "";
     $scope.clients = [];
 
