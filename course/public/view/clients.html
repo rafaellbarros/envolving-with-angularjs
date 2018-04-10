@@ -44,7 +44,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="client in clients | filter:search | orderBy:order:reverse">
-                <td>{{ client.name }}</td>
+                <td><a href="#!client/{{client.id}}">{{ client.name }}</a></td>
                 <td>{{ client.tel }}</td>
                 <td>{{ client.address }}</td>
                 <td>

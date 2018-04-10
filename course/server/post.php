@@ -40,12 +40,19 @@ if($post){
         echo json_encode($post);exit;
     }
 }
+if(isset($_GET['id'])){
+    $date = find($_GET['id']);
+    echo json_encode($date);exit;
+}
+
 $date = listAll();
 echo json_encode($date);exit;
+
 function conn(){
     $conn = new \PDO("mysql:host=localhost;dbname=test_angular","root","root");
     return $conn;
 }
+
 function save($data){
     $db = conn();
     $query = "Insert into `client` (`name`,`tel`,`address`) values (:name,:tel,:address)";
@@ -56,6 +63,7 @@ function save($data){
     $stmt->execute();
     return $db->lastInsertId();
 }
+
 function update($data){
     $db = conn();
     $query = "UPDATE `client` SET `name`=:name,`tel`=:tel,`address`=:address WHERE `id`=:id;";
@@ -66,6 +74,7 @@ function update($data){
     $stmt->bindValue(':address',$data->address);
     return $stmt->execute();
 }
+
 function delete($id){
     $db = conn();
     $query = "DELETE FROM `client` WHERE `id`=:id;";
@@ -73,6 +82,7 @@ function delete($id){
     $stmt->bindValue(':id',$id);
     return $stmt->execute();
 }
+
 function listAll(){
     $db = conn();
     $query = "Select * from `client` order by `id` DESC";
@@ -80,6 +90,7 @@ function listAll(){
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
+
 function find($id){
     $db = conn();
     $query = "Select * from `client` where id=:id";
